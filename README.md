@@ -30,13 +30,13 @@ CPU占用率、当前线程数量、
 
 ```css
 	dependencies {
-	        implementation 'com.github.forJrking:ApmFloat:1.0.0'
+	        implementation 'com.github.forJrking:ApmFloat:1.0.1'
 	}
 ```
 
 **Step 3.** initialize
 
 ```java
-ApmOverlayController.initialize(context,isDebug)
+    ApmOverlayController.initialize(context,isDebug);
 ```
 
