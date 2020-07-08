@@ -1,8 +1,10 @@
-## 开发助手
+## 开发助手 [![](https://jitpack.io/v/forJrking/ApmFloat.svg)](https://jitpack.io/#forJrking/ApmFloat)
 
 辅助开发检查性能问题，快速找到视觉页面
 
-<img src="Screenshot_20200708-180228.png" alt="png" style="zoom:80%;" />
+Android 8.0 以上手机需要手动在应用的设置页面，开启悬浮窗口权限
+
+<img src="Screenshot_20200708-180228.png" alt="png"/>
 
 悬浮窗依次展示数据为：
 
@@ -28,7 +30,7 @@ CPU占用率、当前线程数量、
 
 ```css
 	dependencies {
-	        implementation 'com.github.forJrking:ApmFloat:Tag'
+	        implementation 'com.github.forJrking:ApmFloat:1.0.0'
 	}
 ```
 

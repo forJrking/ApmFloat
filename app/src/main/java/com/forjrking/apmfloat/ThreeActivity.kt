@@ -1,18 +1,26 @@
 package com.forjrking.apmfloat
 
-import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.forjrking.apmlib.ApmOverlayController
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class ThreeActivity : AppCompatActivity() {
+    val list = mutableListOf<Bitmap>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApmOverlayController.initialize(this,true)
         setContentView(R.layout.activity_main)
+
         text.setOnClickListener {
-            startActivity(Intent(this@MainActivity,SecondActivity::class.java))
+            repeat(10) {
+                val bitmap =
+                    BitmapFactory.decodeResource(Resources.getSystem(), R.mipmap.ic_launcher)
+                list.add(bitmap)
+            }
         }
     }
 }

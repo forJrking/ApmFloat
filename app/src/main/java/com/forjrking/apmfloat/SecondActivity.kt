@@ -6,13 +6,17 @@ import android.os.Bundle
 import com.forjrking.apmlib.ApmOverlayController
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ApmOverlayController.initialize(this,true)
         setContentView(R.layout.activity_main)
+        repeat(10){
+            Thread{
+                Thread.sleep(500000)
+            }.start()
+        }
         text.setOnClickListener {
-            startActivity(Intent(this@MainActivity,SecondActivity::class.java))
+            startActivity(Intent(this@SecondActivity, ThreeActivity::class.java))
         }
     }
 }
