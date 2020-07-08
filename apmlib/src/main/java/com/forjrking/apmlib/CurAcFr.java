@@ -2,14 +2,13 @@ package com.forjrking.apmlib;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 
 /**
@@ -38,17 +37,17 @@ public class CurAcFr {
         Application.ActivityLifecycleCallbacks sActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                if (activity instanceof FragmentActivity) {
-                    FragmentActivity fragmentActivity = (FragmentActivity) activity;
-                    fragmentActivity.getSupportFragmentManager().registerFragmentLifecycleCallbacks(supportFragmentLifecycleCallbacks, true);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        fragmentActivity.getFragmentManager().registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
-                    }
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        activity.getFragmentManager().registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
-                    }
-                }
+//                if (activity instanceof FragmentActivity) {
+//                    FragmentActivity fragmentActivity = (FragmentActivity) activity;
+//                    fragmentActivity.getSupportFragmentManager().registerFragmentLifecycleCallbacks(supportFragmentLifecycleCallbacks, true);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        fragmentActivity.getFragmentManager().registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
+//                    }
+//                } else {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        activity.getFragmentManager().registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
+//                    }
+//                }
 
             }
 
@@ -83,32 +82,32 @@ public class CurAcFr {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                if (activity instanceof FragmentActivity) {
-                    FragmentActivity fragmentActivity = (FragmentActivity) activity;
-                    fragmentActivity.getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(supportFragmentLifecycleCallbacks);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        fragmentActivity.getFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
-                    }
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        activity.getFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
-                    }
-                }
+//                if (activity instanceof FragmentActivity) {
+//                    FragmentActivity fragmentActivity = (FragmentActivity) activity;
+//                    fragmentActivity.getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(supportFragmentLifecycleCallbacks);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        fragmentActivity.getFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
+//                    }
+//                } else {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        activity.getFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
+//                    }
+//                }
             }
         };
 
-        supportFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
-            @Override
-            public void onFragmentResumed(FragmentManager fm, Fragment f) {
-                if (f.isAdded() && f.isResumed() && f.isVisible()&& f.getUserVisibleHint()) {
-                    mCurrentFragmentName = f.getClass().getSimpleName();
-                    Log.d(TAG, mCurrentFragmentName);
-                    if (mOnChangeListener != null) {
-                        mOnChangeListener.onCurrentFragmentChange(mCurrentFragmentName);
-                    }
-                }
-            }
-        };
+//        supportFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
+//            @Override
+//            public void onFragmentResumed(FragmentManager fm, Fragment f) {
+//                if (f.isAdded() && f.isResumed() && f.isVisible()&& f.getUserVisibleHint()) {
+//                    mCurrentFragmentName = f.getClass().getSimpleName();
+//                    Log.d(TAG, mCurrentFragmentName);
+//                    if (mOnChangeListener != null) {
+//                        mOnChangeListener.onCurrentFragmentChange(mCurrentFragmentName);
+//                    }
+//                }
+//            }
+//        };
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fragmentLifecycleCallbacks = new android.app.FragmentManager.FragmentLifecycleCallbacks() {

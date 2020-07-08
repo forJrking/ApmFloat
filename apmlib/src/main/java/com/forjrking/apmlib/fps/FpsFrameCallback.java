@@ -2,9 +2,6 @@ package com.forjrking.apmlib.fps;
 
 import android.util.Log;
 
-import androidx.annotation.Keep;
-import androidx.annotation.Nullable;
-
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,7 +12,6 @@ import java.util.TreeMap;
  */
 public class FpsFrameCallback extends ChoreographerCompat.FrameCallback {
 
-    @Keep
     public static class FpsInfo {
 
         public final int totalFrames; // 总帧
@@ -49,8 +45,7 @@ public class FpsFrameCallback extends ChoreographerCompat.FrameCallback {
     private int mExpectedNumFramesPrev = 0;
     private int m4PlusFrameStutters = 0;
     private boolean mIsRecordingFpsInfoAtEachFrame = false;
-    private @Nullable
-    TreeMap<Long, FpsInfo> mTimeToFps;
+    private TreeMap<Long, FpsInfo> mTimeToFps;
 
     public FpsFrameCallback(ChoreographerCompat choreographer) {
         mChoreographer = choreographer;
@@ -136,8 +131,7 @@ public class FpsFrameCallback extends ChoreographerCompat.FrameCallback {
      * Returns the FpsInfo as if stop had been called at the given upToTimeMs. Only valid if
      * monitoring was started with {@link #startAndRecordFpsAtEachFrame()}.
      */
-    public @Nullable
-    FpsInfo getFpsInfo(long upToTimeMs) {
+    public FpsInfo getFpsInfo(long upToTimeMs) {
         if (mTimeToFps == null) {
             Log.e("FPS", "FPS was not recorded at each frame!must be call startAndRecordFpsAtEachFrame()");
             return null;

@@ -3,11 +3,10 @@ package com.forjrking.apmlib;
 import android.os.Looper;
 import android.os.Process;
 
-import androidx.collection.ArrayMap;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -58,8 +57,8 @@ public class ThreadMonitor {
     static final String sepOtherThreads = "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---";
     static final String sepOtherThreadsEnding = "+++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++";
 
-    public static ArrayMap<String, Integer> getThreadsCount() {
-        ArrayMap<String, Integer> arrayMap = new ArrayMap<>();
+    public static HashMap<String, Integer> getThreadsCount() {
+        HashMap<String, Integer> arrayMap = new HashMap<>();
         Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
         for (Map.Entry<Thread, StackTraceElement[]> entry : map.entrySet()) {
             Thread thd = entry.getKey();
@@ -79,7 +78,7 @@ public class ThreadMonitor {
      * TIME: 2020/3/18 0018 上午 9:42
      **/
     public static String getThreadsCountInfo() {
-        ArrayMap<String, Integer> threadsCount = getThreadsCount();
+        HashMap<String, Integer> threadsCount = getThreadsCount();
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Integer> entry : threadsCount.entrySet()) {
             sb.append("thread name：").append(entry.getKey())

@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import androidx.annotation.Nullable;
 
 
 /**
@@ -93,8 +92,7 @@ public class ApmOverlayController {
     private final WindowManager mWindowManager;
     private final Context mContext;
 
-    private @Nullable
-    ViewGroup mApmView;
+    private ViewGroup mApmView;
 
     public ApmOverlayController(Context context) {
         mContext = context;
