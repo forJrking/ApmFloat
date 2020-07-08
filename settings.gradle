@@ -1,0 +1,4 @@
+include ':components_tools'
+include ':apmlib'
+include ':app'
+rootProject.name = "APMFloat"
