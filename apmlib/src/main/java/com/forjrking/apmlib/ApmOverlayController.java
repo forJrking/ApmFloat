@@ -7,10 +7,8 @@
 
 package com.forjrking.apmlib;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -53,7 +51,7 @@ public class ApmOverlayController {
     }
 
     private static boolean permissionCheck(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Get permission to show debug overlay in dev builds.
             if (!Settings.canDrawOverlays(context)) {
                 // overlay permission not yet granted
@@ -62,26 +60,9 @@ public class ApmOverlayController {
                 return true;
             }
         }
+        return true;
         // on pre-M devices permission needs to be specified in manifest
-        return hasPermission(context, Manifest.permission.SYSTEM_ALERT_WINDOW);
-    }
-
-    private static boolean hasPermission(Context context, String permission) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(),
-                    PackageManager.GET_PERMISSIONS);
-            if (info.requestedPermissions != null) {
-                for (String p : info.requestedPermissions) {
-                    if (p.equals(permission)) {
-                        return true;
-                    }
-                }
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("TAG", "Error while retrieving package info", e);
-        }
-        return false;
+//        return hasPermission(context, Manifest.permission.SYSTEM_ALERT_WINDOW);
     }
 
     private static boolean canHandleIntent(Context context, Intent intent) {
