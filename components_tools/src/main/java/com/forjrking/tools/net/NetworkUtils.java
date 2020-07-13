@@ -1,4 +1,4 @@
-package com.forjrking.tools;
+package com.forjrking.tools.net;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
+
+import com.forjrking.tools.Cxt;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -83,10 +85,6 @@ public final class NetworkUtils {
         return info != null && info.isConnected();
     }
 
-
-    public interface Callback {
-        void call(boolean isSuccess);
-    }
 
     /**
      * Return whether mobile data is enabled.

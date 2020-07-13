@@ -15,8 +15,6 @@ import java.lang.reflect.Field;
 
 /**
  * 软键盘控制工具类
- * <p>
- * Created by yangZhou on 2017/5/5/005 11:44.
  */
 
 public class IMEUtils {
@@ -134,14 +132,13 @@ public class IMEUtils {
             String[] arr = new String[]{"mCurRootView", "mServedView", "mNextServedView"};
             Field f = null;
             Object obj = null;
-            for (int i = 0; i < arr.length; i++) {
-                String param = arr[i];
+            for (String param : arr) {
                 f = imm.getClass().getDeclaredField(param);
-                if (f.isAccessible() == false) {
+                if (!f.isAccessible()) {
                     f.setAccessible(true);
                 }
                 obj = f.get(imm);
-                if (obj != null && obj instanceof View) {
+                if (obj instanceof View) {
                     View vGet = (View) obj;
                     if (vGet.getContext() == context) {
                         f.set(imm, null);
@@ -169,7 +166,6 @@ public class IMEUtils {
 
     private static int getDecorViewInvisibleHeight(final Activity activity) {
         final View decorView = activity.getWindow().getDecorView();
-        if (decorView == null) return 0;
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
         Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "

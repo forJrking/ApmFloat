@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.forjrking.tools.log.KLog;
 
@@ -121,7 +120,6 @@ public class UIUtil {
 
     /**
      * 获取屏幕宽度和高度，单位为px
-     *
      * @param activity
      * @return
      */
@@ -132,29 +130,9 @@ public class UIUtil {
         return new Point(w_screen, h_screen);
     }
 
-    public static void setViewVisibility(View view, ViewState state) {
-        if (view != null && view.getVisibility() != state.visible) {
-            view.setVisibility(state.visible);
-        }
-    }
-
-    /**
-     * DES: 设置TextView文字
-     * TIME: 2018/11/14 11:40
-     */
-    public static void setText(TextView textView, CharSequence text) {
-        if (textView != null && text != null) {
-            textView.setText(text);
-        }
-    }
-
-    /**
-     * DES: 设置EditText文字
-     * TIME: 2018/11/14 11:41
-     */
-    public static void setText(EditText editText, CharSequence text) {
-        if (editText != null && text != null) {
-            editText.setText(text);
+    public static void setVisible(View view) {
+        if (view != null && view.getVisibility() != View.VISIBLE) {
+            view.setVisibility(View.VISIBLE);
         }
     }
 
@@ -188,32 +166,6 @@ public class UIUtil {
             return editText.getHint().toString().trim();
         }
         return "";
-    }
-
-
-    public enum ViewState {
-        /**
-         * 可见
-         */
-        VISIBLE(View.VISIBLE),
-        /**
-         * 隐藏
-         */
-        INVISIBLE(View.INVISIBLE),
-        /**
-         * 隐藏不占位置
-         */
-        GONE(View.GONE),
-        ;
-
-        /**
-         * view的可见状态
-         */
-        public final int visible;
-
-        ViewState(int visible) {
-            this.visible = visible;
-        }
     }
 
 

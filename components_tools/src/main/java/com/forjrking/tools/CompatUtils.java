@@ -10,11 +10,12 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -167,8 +168,6 @@ public class CompatUtils {
 
     public static String getUUID() {
 
-        String serial = null;
-
         String m_szDevIDShort = "35" +
                 Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
 
@@ -183,21 +182,9 @@ public class CompatUtils {
                 Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
 
                 Build.USER.length() % 10; //13 位
-
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                serial = Build.getSerial();
-            } else {
-                serial = Build.SERIAL;
-            }
-            //API>=9 使用serial号
-            return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-        } catch (Exception exception) {
-            //serial需要一个初始化
-            serial = "serial"; // 随便一个初始化
-        }
+        final String ANDROID_ID = Settings.System.getString(Cxt.get().getContentResolver(), Settings.System.ANDROID_ID);
         //使用硬件信息拼凑出来的15位号码
-        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        return new UUID(m_szDevIDShort.hashCode(), ANDROID_ID.hashCode()).toString();
     }
 
     /**
@@ -233,4 +220,5 @@ public class CompatUtils {
         }
         return null;
     }
+
 }

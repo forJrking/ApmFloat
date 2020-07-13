@@ -5,6 +5,8 @@ import android.view.View;
 
 import androidx.collection.LruCache;
 
+import static android.view.View.NO_ID;
+
 
 /**
  * DES: 点击工具类
@@ -27,7 +29,6 @@ public class ClickUtils {
         throw new UnsupportedOperationException("Do not need instantiate!");
     }
 
-
     /**
      * 是否是快速点击
      *
@@ -46,7 +47,8 @@ public class ClickUtils {
      * @return true:是，false:不是
      */
     public static boolean isFastDoubleClick(View v, long intervalMillis) {
-        return isFastExecute(v.getId(), intervalMillis);
+        int id = v.getId() == NO_ID ? v.hashCode() : v.getId();
+        return isFastExecute(id, intervalMillis);
     }
 
     /**
@@ -87,5 +89,17 @@ public class ClickUtils {
             sInvCache.put(methodId, inval);
             return false;
         }
+    }
+
+    /**防止重复点击的回调*/
+    public static void setOnClickListener(final View view, final View.OnClickListener listener) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null && isFastDoubleClick(view)) {
+                    listener.onClick(v);
+                }
+            }
+        });
     }
 }

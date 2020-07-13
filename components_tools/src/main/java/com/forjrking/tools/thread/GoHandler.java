@@ -1,4 +1,4 @@
-package com.forjrking.tools;
+package com.forjrking.tools.thread;
 
 
 import android.os.Looper;
@@ -26,5 +26,14 @@ public class GoHandler extends android.os.Handler {
             }
         }
         return mHandler;
+    }
+
+    /**防止一股脑使用导致Looper阻塞*/
+    public void runOnMainThread(Runnable runnable) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            runnable.run();
+        } else {
+            mHandler.post(runnable);
+        }
     }
 }
