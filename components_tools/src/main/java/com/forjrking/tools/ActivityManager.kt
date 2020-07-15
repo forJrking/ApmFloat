@@ -5,7 +5,8 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import com.forjrking.tools.log.KLog
+import android.os.Handler
+import android.os.Looper
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -17,24 +18,27 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 class ActivityManager() {
 
+    private val CHECK_DELAY = 600L
+
     private val lifecycleCallbacks: IActivityLifecycleCallbacks = IActivityLifecycleCallbacks()
+
+    private fun getStack() = lifecycleCallbacks.activityStack
+
+    private val listeners = CopyOnWriteArrayList<ForegroundCallbacks>()
 
     companion object {
         @JvmStatic
         val instances by lazy { ActivityManager() }
     }
 
-    init {
-        Cxt.application?.registerActivityLifecycleCallbacks(lifecycleCallbacks)
+    fun initialize(_application: Application) {
+        _application.registerActivityLifecycleCallbacks(lifecycleCallbacks)
     }
 
-    private fun getStack() = lifecycleCallbacks.activityStack
+    open fun topActivity(): Activity? = getStack().let { if (it.isNotEmpty()) it.peek() else null }
 
-    private val listeners = CopyOnWriteArrayList<ForegroundCallbacks>()
-
-    open fun topActivity(): Activity = getStack().peek()
-
-    open fun bottomActivity(): Activity = getStack().firstElement()
+    open fun bottomActivity(): Activity? =
+        getStack().let { if (it.isNotEmpty()) it.firstElement() else null }
 
     /**
      * 彻底退出
@@ -116,12 +120,20 @@ class ActivityManager() {
         return false
     }
 
-    // 监听切换到前台
-    private var resumedCount = 0
 
-    inner class IActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+    private inner class IActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
         open val activityStack: Stack<Activity> by lazy { Stack<Activity>() }
+
+        /**前后台监控 延时*/
+        private val handler by lazy { Handler(Looper.getMainLooper()) }
+
+        /**前后台监控*/
+        private var check: Runnable? = null
+
+        // 监听切换到前台
+        private var foreground = false
+        private var paused = true
 
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
 
@@ -136,7 +148,13 @@ class ActivityManager() {
         }
 
         override fun onActivityResumed(activity: Activity) {
-            if (resumedCount++ == 0 && isForeground()) {
+            paused = false
+            val wasBackground: Boolean = !foreground
+            foreground = true
+            if (check != null) {
+                handler.removeCallbacks(check)
+            }
+            if (wasBackground) {
                 listeners.forEach {
                     it.onBecameForeground(activity)
                 }
@@ -144,11 +162,18 @@ class ActivityManager() {
         }
 
         override fun onActivityPaused(activity: Activity) {
-            if (--resumedCount == 0 && isBackground()) {
-                listeners.forEach {
-                    it.onBecameBackground()
-                }
+            paused = true
+            if (check != null) {
+                handler.removeCallbacks(check)
             }
+            handler.postDelayed(Runnable {
+                if (foreground && paused) {
+                    foreground = false
+                    listeners.forEach {
+                        it.onBecameBackground()
+                    }
+                }
+            }.also { check = it }, CHECK_DELAY)
         }
 
         override fun onActivityStopped(activity: Activity) {
@@ -161,14 +186,6 @@ class ActivityManager() {
 
     }
 
-    fun isForeground(): Boolean {
-        return isAppOnForeground(Cxt.get())
-    }
-
-    fun isBackground(): Boolean {
-        return !isForeground()
-    }
-
     fun addListener(listener: ForegroundCallbacks?) {
         if (!listeners.contains(listener)) {
             listeners.add(listener)
@@ -179,28 +196,6 @@ class ActivityManager() {
         if (listeners.contains(listener)) {
             listeners.remove(listener)
         }
-    }
-
-    /**
-     * 判断当前程序是否在前台
-     */
-    private fun isAppOnForeground(context: Context?): Boolean {
-        val activityManager =
-            context?.getSystemService(Context.ACTIVITY_SERVICE) as? android.app.ActivityManager
-        val appProcesses = activityManager?.runningAppProcesses
-        if (appProcesses == null || appProcesses.size <= 0) {
-            return true
-        }
-        for (appProcess in appProcesses) {
-            if (appProcess == null) {
-                KLog.w("getProcess == null")
-                return true
-            } else if (appProcess.processName == context.packageName) {
-                KLog.i("isAppOnForeground importance = " + appProcess.importance)
-                return appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND || appProcess.importance == RunningAppProcessInfo.IMPORTANCE_VISIBLE
-            }
-        }
-        return false
     }
 
 }

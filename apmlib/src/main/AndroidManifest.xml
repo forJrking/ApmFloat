@@ -3,4 +3,12 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
+    <application>
+        <provider
+            android:name=".InitializeProvider"
+            android:authorities="${applicationId}.apmProvider"
+            android:exported="false"
+            />
+    </application>
+
 </manifest>
