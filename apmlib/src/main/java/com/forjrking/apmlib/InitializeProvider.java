@@ -11,7 +11,7 @@ import android.net.Uri;
  * @date: 2020/7/15 13:53
  * @version: 1.0.0
  */
-class InitializeProvider extends ContentProvider {
+public class InitializeProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         ApmOverlayController.initialize(getContext(), true);
