@@ -13,7 +13,7 @@ FPS、文件句柄数量、
 CPU占用率、当前线程数量、
 内存占用值、JVM内存使用情况
 
-集成方式
+测试环境集成方式
 
 **Step 1.** Add it in your root build.gradle at the end of repositories:
 
@@ -30,13 +30,12 @@ CPU占用率、当前线程数量、
 
 ```css
 	dependencies {
-	        implementation 'com.github.forJrking:ApmFloat:1.0.1'
+	       debugImplementation 'com.github.forJrking:ApmFloat:1.0.3'
 	}
 ```
 
-**Step 3.** initialize
+~~**Step 3.** initialize~~
 
 ```java
-    ApmOverlayController.initialize(context,isDebug);
+  1.0.3以上版本不需要（建议只在测试环境使用）  ApmOverlayController.initialize(context,isDebug);
 ```
-
