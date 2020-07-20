@@ -1,14 +1,13 @@
 package com.forjrking.apmfloat
 
 import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import com.forjrking.apmlib.ApmOverlayController
-import com.forjrking.tools.ActivityManager
-import com.forjrking.tools.ForegroundCallbacks
+import com.forjrking.tools.activity.ActivityManager
+import com.forjrking.tools.activity.ForegroundCallbacks
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -42,7 +41,8 @@ class MainActivity : AppCompatActivity() {
         }
         ActivityManager.instances.initialize(this.application)
 
-        ActivityManager.instances.addListener(object : ForegroundCallbacks {
+        ActivityManager.instances.addListener(object :
+            ForegroundCallbacks {
 
             override fun onBecameForeground(currentAct: Activity) {
                 Log.e("MainActivity", "onBecameForeground")

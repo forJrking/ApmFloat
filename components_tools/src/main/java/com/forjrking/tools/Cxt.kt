@@ -47,6 +47,7 @@ object Cxt {
         }
     }
 
+    @JvmStatic
     val res: Resources
         get() {
             if (_res == null) {
@@ -55,14 +56,17 @@ object Cxt {
             return _res!!
         }
 
+    @JvmStatic
     fun <T> getSystemService(name: String?): T {
         return _cxt!!.getSystemService(name!!) as T
     }
 
+    @JvmStatic
     fun getStr(@StringRes resId: Int): String {
         return _cxt!!.getString(resId)
     }
 
+    @JvmStatic
     fun getColor(@ColorRes resId: Int): Int {
         return if (Build.VERSION.SDK_INT >= 23) {
             _cxt!!.getColor(resId)
@@ -71,10 +75,12 @@ object Cxt {
         }
     }
 
+    @JvmStatic
     fun getStr(resId: Int, vararg fmtArgs: Any?): String {
         return _cxt!!.getString(resId, *fmtArgs)
     }
 
+    @JvmStatic
     fun getStrArray(@ArrayRes resId: Int): Array<String> {
         return res!!.getStringArray(resId)
     }
@@ -82,6 +88,7 @@ object Cxt {
     /**
      * DES: 获取Activity
      */
+    @JvmStatic
     fun getActivity(view: View): Activity {
         // DES: 获取当前View的上下文
         var context = view.context
@@ -97,6 +104,10 @@ object Cxt {
         throw IllegalStateException("The View's Context is not an Activity.")
     }
 
+    /**
+     * DES: 反射获取全局Context
+     */
+    @JvmStatic
     fun reflectContext(): Context? {
         if (_cxt == null) {
             try {

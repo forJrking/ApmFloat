@@ -1,4 +1,4 @@
-package com.forjrking.tools
+package com.forjrking.tools.activity
 
 import android.app.Activity
 

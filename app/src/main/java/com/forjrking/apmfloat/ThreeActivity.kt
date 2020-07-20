@@ -1,13 +1,10 @@
 package com.forjrking.apmfloat
 
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.forjrking.apmlib.ApmOverlayController
-import com.forjrking.tools.ActivityManager
+import com.forjrking.tools.activity.ActivityManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class ThreeActivity : AppCompatActivity() {
@@ -24,8 +21,10 @@ class ThreeActivity : AppCompatActivity() {
 //                list.add(bitmap)
 //            }
 
-            Log.e("MainActivity",ActivityManager.instances.topActivity().toString())
-            Log.e("MainActivity",ActivityManager.instances.bottomActivity().toString())
+            Log.e("MainActivity",
+                ActivityManager.instances.topActivity().toString())
+            Log.e("MainActivity",
+                ActivityManager.instances.bottomActivity().toString())
 
         }
     }
