@@ -80,7 +80,7 @@ public class RecordBtn extends View implements View.OnClickListener, View.OnLong
         super(context, attrs, defStyleAttr);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         mContext = context;
-        ringSecondColor = Color.parseColor("#m2998FE");
+        ringSecondColor = Color.parseColor("#2998FE");
 
         setOnClickListener(this);
         setOnLongClickListener(this);

@@ -3,37 +3,47 @@ package com.forjrking.apmfloat
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
 import com.forjrking.apmlib.ApmOverlayController
 import com.forjrking.tools.activity.ActivityManager
 import com.forjrking.tools.activity.ForegroundCallbacks
+import com.forjrking.tools.time.TimerListener
+import com.forjrking.tools.time.toCountTime
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var timer: TimerDown
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ApmOverlayController.initialize(this, true)
         setContentView(R.layout.activity_main)
+        val countDownTimer = com.forjrking.tools.time.CountDownTimer(20000, 1000)
 
+        countDownTimer.setCountDownListener(object : TimerListener {
+            override fun onFinish() {
+                text.text = "onFinish"
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                text.text = millisUntilFinished.toCountTime(true)
+            }
+
+        })
         btn.setOnRecordListener(object : RecordBtn.OnRecordListener {
             override fun takePic() {
 
             }
 
             override fun startRecord() {
-                timer.start()
+                countDownTimer.start()
             }
 
             override fun stopRecord() {
-                timer.cancel()
+                countDownTimer.cancel()
             }
         })
 
-        timer = TimerDown(30 * 1000, 1000)
+
 
         text.setOnClickListener {
 
@@ -55,19 +65,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    inner class TimerDown(m: Long, l: Long) : CountDownTimer(m, l) {
-        override fun onFinish() {
-
-        }
-
-        override fun onTick(millisUntilFinished: Long) {
-            btn.second = millisUntilFinished / 1000
-        }
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        timer.cancel()
     }
 }
