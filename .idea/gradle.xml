@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/apmlib" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/components_tools" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
